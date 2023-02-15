@@ -41,7 +41,7 @@ function ListItemLink(props) {
   }
 
   return (
-    <li>
+    <li className='ListSingleItem'>
       <ListItem button component={RouterLink} to={to} {...other}>
         <ListItemText primary={primary} />
         {icon}
@@ -92,32 +92,36 @@ export default function RouterBreadcrumbs() {
 
   return (
     <MemoryRouter initialEntries={['/inbox']} initialIndex={0}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', width: 360 }}>
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+
         <Routes>
           <Route path="*" element={<Page />} />
           <Route path="test" element={<HelloWorldPage />} />
           <Route path="trash" element={<HelloWorldPage />} />
         </Routes>
-        <Box
-          sx={{
-            bgcolor: 'background.paper',
-            mt: 1,
-          }}
-          component="nav"
-          aria-label="mailbox folders"
-        >
-          <List>
-            <ListItemLink to="/inbox" open={open} onClick={handleClick} />
-            <Collapse component="li" in={open} timeout="auto" unmountOnExit>
-              <List disablePadding>
-                <ListItemLink sx={{ pl: 4 }} to="/inbox/important" />
-              </List>
-            </Collapse>
-            <ListItemLink to="/trash" />
-            <ListItemLink to="/spam" />
-          </List>
+        <Box className='MainBox' sx={{ display: 'flex', flexDirection: 'column', width: 360 }}>
+          <Box
+            className='ListBox'
+            sx={{
+              bgcolor: 'background.paper',
+              mt: 1,
+            }}
+            component="nav"
+            aria-label="mailbox folders"
+          >
+            <List>
+              <ListItemLink to="/inbox" open={open} onClick={handleClick} />
+              <Collapse component="li" in={open} timeout="auto" unmountOnExit>
+                <List disablePadding>
+                  <ListItemLink sx={{ pl: 4 }} to="/inbox/important" />
+                </List>
+              </Collapse>
+              <ListItemLink to="/trash" />
+              <ListItemLink to="/spam" />
+            </List>
+          </Box>
         </Box>
-      </Box>
+      </div>
     </MemoryRouter>
   );
 }

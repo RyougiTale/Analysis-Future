@@ -9,4 +9,3 @@ the world is in a chaos, right?
 `npm test`
 `npm run build`
 
-- *react*
