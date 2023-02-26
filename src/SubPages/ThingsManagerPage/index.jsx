@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
+import { useEffect, useState } from 'react'
 import {
   Link as RouterLink,
   Route,
@@ -17,7 +18,6 @@ import {
   useLocation,
   BrowserRouter,
 } from 'react-router-dom';
-// import HelloWorldPage from './SubPages/UtilPage'
 
 
 const LinkRouter = (props) => (
@@ -81,38 +81,99 @@ const Page = () => {
   );
 };
 
+function HoverPage() {
 
-function UtilPage() {
+}
+
+function Item(props) {
+  return (
+    <button style={{
+      width: '100%',
+      height: '100%',
+      border: '1px solid #d9d9d9',
+      //  outline: 'none'
+      background: '#008DC5',
+      color: '#fff',
+      fontSize: '1.5em',
+
+      position: 'relative',
+      overflow: 'hidden',
+
+      borderRadius: '25%',
+    }} onClick={() => {
+      console.log("hello");
+
+    }} className="item">{props.name}</button>
+  )
+}
+
+function FloatingBox() {
+  const [top, setTop] = useState("50%");
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    console.log("use effect");
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const visible = scrollTop >= 5;
+      setIsVisible(visible);
+      setTop(visible ? `${scrollTop + window.innerHeight / 2}px` : "50%");
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+  return (<div style={{
+    position: 'absolute',
+    zIndex: '1',
+    background: '#6f6f6fa1',
+    width: '80%',
+    height: '80%',
+    border: '1px solid black',
+    // alignSelf: 'center',
+    // justifySelf: 'center',
+    left: '50%',
+    // top: '50%',
+    top: isVisible ? top : "-100px",
+    transform: 'translate(-50%, -50%)',
+    transition: "top 0.5s",
+  }}></div>);
+}
+
+function ThingsManagerPage() {
   const [open, setOpen] = React.useState(true);
 
   const handleClick = () => {
     setOpen((prevOpen) => !prevOpen);
   };
-  console.log("hello world, this is util page");
+  console.log("hello world, this is ThingsManagerPage");
+  let thingsArray = [];
+  let items_per_row = 4;
+
+
+  for (let i = 0; i < 13; i++) {
+    // if (i % items_per_row == 0) {
+    //   thingsArray.push(<div className="row"></div>);
+    // }
+    // thingsArray[i / items_per_row].push(<div className="item">test</div>);
+    thingsArray.push(<div key={i} style={{ width: '250px', height: '250px' }} className="item"><Item name="test" /></div>)
+  }
   return (
-    <Box className='MainBox' sx={{ display: 'flex', flexDirection: 'column', width: 360 }}>
-      <Box
-        className='ListBox'
-        sx={{
-          bgcolor: 'background.paper',
-          mt: 1,
-        }}
-        component="nav"
-        aria-label="mailbox folders"
-      >
-        <List>
-          <ListItemLink to="/inbox" open={open} onClick={handleClick} />
-          <Collapse component="li" in={open} timeout="auto" unmountOnExit>
-            <List disablePadding>
-              <ListItemLink sx={{ pl: 4 }} to="/inbox/important" />
-            </List>
-          </Collapse>
-          <ListItemLink to="/trash" />
-          <ListItemLink to="/spam" />
-        </List>
-      </Box>
-    </Box>
+    <div>
+      <FloatingBox />
+      <div style={{
+        display: 'flex',
+        // flexBasis: '100px',
+        flexWrap: 'wrap',
+        alignItems: 'flex-end',
+        alignContent: 'center',
+        justifyContent: 'center',
+        gap: '10px',
+        // justifyItems: 'center',
+      }} className="ThingsManagerPage">
+        {thingsArray}
+      </div>
+    </div>
   );
 }
 
-export default UtilPage;
+export default ThingsManagerPage;

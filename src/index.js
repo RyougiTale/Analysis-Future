@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import Mycrumbs from './RouterBreadcrumbs';
+import MyRouter from './SubPages/MainRouter/MainRouter';
 import UtilPage from './SubPages/UtilPage'
 import reportWebVitals from './reportWebVitals';
 import {
@@ -10,6 +10,7 @@ import {
   Route,
   Outlet,
 } from "react-router-dom";
+import { Provider } from 'react-redux';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -24,12 +25,10 @@ root.render(
   //       </Route>
   //     </Route>
   //     <Route path="util" element={<UtilPage />} />
-
   //   </Routes>
   // </BrowserRouter>
   <div>
-    <Mycrumbs />
-    {/* <Outlet /> */}
+    <MyRouter />
   </div>
 );
 
